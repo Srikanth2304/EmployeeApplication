@@ -2,7 +2,9 @@ package com.web.EmployeeApplication.service;
 
 import com.web.EmployeeApplication.entity.Address;
 import com.web.EmployeeApplication.entity.Employee;
+import com.web.EmployeeApplication.entity.Project;
 import com.web.EmployeeApplication.repository.EmployeeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+
+@Transactional
 @Service
 public class EmployeeService {
 //    List<Employee> employeeList = new ArrayList<>(Arrays.asList(
@@ -26,7 +31,13 @@ public class EmployeeService {
 
     public Employee getAnEmployee(int Id){
 //        return employeeList.stream().filter(employee -> (employee.getEmployeeId() == Id)).findFirst().get();
-        return employeeRepository.findById(Id).orElseThrow(() ->new RuntimeException());
+        Employee employee = employeeRepository.findById(Id).orElseThrow(() ->new RuntimeException());
+        System.out.println("Fecthing projects from the service class");
+        Set<Project> projects = employee.getProjects();
+        for(Project project : projects){
+            System.out.println(project.getClientName());
+        }
+        return employee;
     }
 
     public void createEmployee(Employee employee){
