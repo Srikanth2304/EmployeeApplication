@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Employee {
@@ -31,7 +34,12 @@ public class Employee {
 //    private List<Address> addresses;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
+    public Employee(String employeeName, String employeeCity) {
+        this.employeeName = employeeName;
+        this.employeeCity = employeeCity;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Address> addresses;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -39,7 +47,7 @@ public class Employee {
             joinColumns = @JoinColumn(name = "Employee_Id"),
             inverseJoinColumns = @JoinColumn(name = "course_Id")
     )
-    private List<Project> projects;
+    private Set<Project> projects = new HashSet<>();
 
     public void removeProject(Project project){
         this.projects.remove(project);
@@ -51,11 +59,11 @@ public class Employee {
         project.getEmployees().add(this);
     }
 
-    public List<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 
@@ -97,6 +105,17 @@ public class Employee {
 
     public void setEmployeeCity(String employeeCity) {
         this.employeeCity = employeeCity;
+    }
+
+    public void addAddress(Address address){
+        this.addresses = new ArrayList<>();
+        addresses.add(address);
+        address.setEmployee(this);
+    }
+
+    public void removeAddress(Address address){
+        addresses.remove(address);
+        address.setEmployee(null);
     }
 
 

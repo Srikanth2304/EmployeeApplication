@@ -27,6 +27,15 @@ public class Address {
         this.employee = employee;
     }
 
+    public Address(String line1, String line2, String zipCode, String city, String state, String country) {
+        this.line1 = line1;
+        this.line2 = line2;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+    }
+
     //realtions
 //    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "employee_Id")
