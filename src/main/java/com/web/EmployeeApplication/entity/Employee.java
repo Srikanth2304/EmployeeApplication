@@ -26,7 +26,7 @@ public class Employee {
 
 
     //realtions
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "spouse_id")
     private Spouse spouse;
 
@@ -39,7 +39,7 @@ public class Employee {
         this.employeeCity = employeeCity;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Address> addresses;
 
     @ManyToMany(cascade = CascadeType.ALL)
